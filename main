@@ -18,18 +18,18 @@ void PrintTree(ostream& dst, const path& p, const filesystem::file_status& statu
     dst << string(offset, ' ') << p.filename().string() << endl;
 
     if (status.type() == filesystem::file_type::directory) {
-        vector<filesystem::directory_entry> kekes;
+        vector<filesystem::directory_entry> directory_entry;
         for (const auto& dir_entry: filesystem::directory_iterator(p)) {
-            kekes.push_back(dir_entry);
+            directory_entry.push_back(dir_entry);
         }
         
-        sort(kekes.begin(), kekes.end(),
+        sort(directory_entry.begin(), directory_entry.end(),
              [](const auto& lhs, const auto& rhs) {
                  return lhs.path().filename().string() > rhs.path().filename().string();
              });
         
-        for (const auto& kek: kekes) {
-            PrintTree(dst, kek, kek.status(), offset + 2);
+        for (const auto& directory: directory_entry) {
+            PrintTree(dst, directory, directory.status(), offset + 2);
         }
     }
 }
